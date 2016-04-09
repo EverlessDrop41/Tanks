@@ -21,11 +21,31 @@ public class TankAiMovement : MonoBehaviour
     {
         if (NMA.SetDestination(Target.position))
         {
-            Vector3 nextTarget = NMA.steeringTarget;
-            Vector3 direction =  nextTarget - transform.position;
-            direction.y = 0;
-            RotateTank(direction);
-            RB.velocity = transform.forward * MoveSpeed;
+            bool targetOutOfRange = true;
+
+            Collider[] objectsInRange = Physics.OverlapSphere(transform.position, TargetStopRadius);
+            foreach (Collider obj in objectsInRange)
+            {
+                if (obj.gameObject.tag == Target.gameObject.tag)
+                {
+                    targetOutOfRange = false;
+                    break;
+                }
+            }
+            
+            if (targetOutOfRange)
+            {
+                Vector3 nextTarget = NMA.steeringTarget;
+                Vector3 direction = nextTarget - transform.position;
+                direction.y = 0;
+                RotateTank(direction);
+                RB.velocity = transform.forward * MoveSpeed;
+            }
+            else
+            {
+                RB.velocity = Vector3.zero;
+            }
+            
         }
         else
         {
@@ -50,6 +70,8 @@ public class TankAiMovement : MonoBehaviour
             {
                 Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.red);
             }
+
+            Gizmos.DrawSphere(transform.position, TargetStopRadius);
         }
         catch (System.Exception e)
         {

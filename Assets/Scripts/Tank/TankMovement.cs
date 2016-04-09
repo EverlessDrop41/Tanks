@@ -30,7 +30,7 @@ public class TankMovement : MonoBehaviour
         moveVector.y = 0;
         RotateTank(moveVector);
 
-        RB.MovePosition(RB.position + moveVector * Time.fixedDeltaTime);
+        RB.velocity = moveVector ;
     }
 
     private void RotateTank(Vector3 moveVector)

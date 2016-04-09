@@ -27,7 +27,7 @@ public class TankMovement : MonoBehaviour
     {
         Transform camTransform = Camera.main.transform;
         Vector3 moveVector = (camTransform.right * _horizontalMove) + (camTransform.forward * _verticalMove);
-        moveVector.y = 0;
+        moveVector += new Vector3(0, RB.velocity.y, 0);
         RotateTank(moveVector);
 
         RB.velocity = moveVector ;

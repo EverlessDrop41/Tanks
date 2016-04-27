@@ -39,7 +39,7 @@ public class TankAiTurret : MonoBehaviour {
         Physics.Raycast(ray, out hit);
         hit.point = new Vector3(hit.point.x, transform.position.y, hit.point.z);
 
-        var lookPos = hit.point - transform.position;
+        var lookPos = targetPos - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(lookPos);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, TurretLerpSpeed);
